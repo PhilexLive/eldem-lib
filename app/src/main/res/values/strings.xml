@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Eldem Lib</string>
+    <string name="search">Global search</string>
+    <string name="search_in">Search in %s</string>
+    <string name="tags">tags</string>
+    <string name="title">Title</string>
+    <string name="body">Body</string>
+    <string name="description">Description</string>
+    <string name="edit_mode">Edit Mode</string>
+    <string name="preferences">Preferences</string>
+    <string name="add_new_category">Add new category</string>
+    <string name="category_name">Category name</string>
+    <string name="cancel">Cancel</string>
+    <string name="add">Add</string>
+</resources>
