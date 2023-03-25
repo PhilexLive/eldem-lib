@@ -4,18 +4,13 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import com.philexliveprojects.eldemlib.data.local.converter.ArticleConverter
 import com.philexliveprojects.eldemlib.data.local.dao.ArticleDao
-import com.philexliveprojects.eldemlib.data.local.dao.CategoryDao
-import com.philexliveprojects.eldemlib.data.local.entities.*
+import com.philexliveprojects.eldemlib.data.local.entity.*
 
-@Database(
-    entities = [
-        Article::class,
-        Paragraph::class,
-    ],
-    version = 1,
-    exportSchema = false
-)
+@Database(entities = [Article::class, Paragraph::class], version = 1, exportSchema = false)
+@TypeConverters(ArticleConverter::class)
 abstract class ArticleDatabase : RoomDatabase() {
     abstract fun articleDao(): ArticleDao
 

@@ -21,6 +21,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.philexliveprojects.eldemlib.R
+import com.philexliveprojects.eldemlib.ui.viewmodel.ArticleViewModel
 
 /*
  * The name "Value" For this Screen means that this contain something undefined,

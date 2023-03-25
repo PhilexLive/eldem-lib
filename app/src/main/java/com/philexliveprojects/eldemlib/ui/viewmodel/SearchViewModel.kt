@@ -1,4 +1,4 @@
-package com.philexliveprojects.eldemlib.ui.screen
+package com.philexliveprojects.eldemlib.ui.viewmodel
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel

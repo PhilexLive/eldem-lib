@@ -1,6 +1,8 @@
 package com.philexliveprojects.eldemlib.ui.screen
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -8,9 +10,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -20,11 +20,12 @@ import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.philexliveprojects.eldemlib.R
-import com.philexliveprojects.eldemlib.data.local.entities.CategoryWithImgUrls
 import com.philexliveprojects.eldemlib.ui.AppViewModelProvider
 import com.philexliveprojects.eldemlib.ui.GLOBAL
 import com.philexliveprojects.eldemlib.ui.common.SearchBar
 import com.philexliveprojects.eldemlib.ui.theme.EldemLibTheme
+import com.philexliveprojects.eldemlib.ui.viewmodel.HomeUiState
+import com.philexliveprojects.eldemlib.ui.viewmodel.HomeViewModel
 
 @Composable
 fun HomeScreen(
@@ -35,48 +36,43 @@ fun HomeScreen(
     onBottomSheetExpand: () -> Unit = {},
     editMode: Boolean = false
 ) {
-    val homeDialogUiState by viewModel.homeDialogUiState.collectAsState()
 
-    Box(modifier.fillMaxSize()) {
-        if (homeDialogUiState.show) {
-            Dialog(onDismissRequest = {
-                viewModel.onDialogHide()
-            }) {
-                Column {
-                    TextField(
-                        value = homeDialogUiState.input,
-                        onValueChange = { viewModel.onDialogTextInput(it) },
-                        placeholder = {
-                            Text(
-                                text = stringResource(R.string.category_name)
-                            )
-                        },
-                        isError = false
-                    )
-                    Row {
-                        Button(
-                            onClick = {
-                                viewModel.onDialogHide()
-                            },
-                            modifier = Modifier.weight(1f)
-                        ) {
-                            Text(text = stringResource(R.string.cancel))
-                        }
-                        Button(
-                            onClick = {
-                                viewModel.addCategory(homeDialogUiState.input)
-                            },
-                            modifier = Modifier.weight(1f)
-                        ) {
-                            Text(text = stringResource(R.string.add))
-                        }
-                    }
-                }
-            }
-        }
-    }
+    var createCategory by remember { mutableStateOf(false) }
+    var creatingCategory by remember { mutableStateOf("") }
+    CategoryCreationDialog(
+        value = creatingCategory,
+        onDialogTextInput = { creatingCategory = it },
+        onDismissRequest = {
+            creatingCategory = ""
+            createCategory = false
+        },
+        onAcceptRequest = {
+            creatingCategory = ""
+            createCategory = false
+            if (viewModel.homeUiState is HomeUiState.Success)
+                TODO("HomeScreen: Add new empty category creation.")
+        },
+        show = createCategory
+    )
 
-    val homeUiState by viewModel.homeUiState.collectAsState()
+    var deletingCategory by remember { mutableStateOf("") }
+    var deleteCategory by remember { mutableStateOf(false) }
+    DeletionDialog(
+        text = stringResource(R.string.delete_category, deletingCategory),
+        deleting = deletingCategory,
+        onDismissRequest = {
+            deletingCategory = ""
+            deleteCategory = false
+        },
+        onAcceptRequest = {
+            viewModel.deleteCategory(deletingCategory)
+            deletingCategory = ""
+            deleteCategory = false
+        },
+        show = deleteCategory
+    )
+
+    val uiState = viewModel.homeUiState
     Scaffold(
         topBar = {
             TopAppBar {
@@ -90,9 +86,7 @@ fun HomeScreen(
         },
         floatingActionButton = {
             if (editMode) {
-                FloatingActionButton(onClick = {
-                    viewModel.onDialogShow()
-                }) {
+                FloatingActionButton(onClick = { createCategory = true }) {
                     Icon(
                         imageVector = Icons.Default.Add,
                         contentDescription = stringResource(R.string.add_new_category)
@@ -103,25 +97,112 @@ fun HomeScreen(
         floatingActionButtonPosition = FabPosition.End,
         modifier = Modifier.fillMaxSize()
     ) { contentPadding ->
-        when (homeUiState) {
-            is HomeUiState.Loading -> homeUiState as HomeUiState.Loading
-            is HomeUiState.Success -> HomeSuccessScreen(
-                categories = (homeUiState as HomeUiState.Success).categories,
-                modifier = Modifier.padding(contentPadding),
-                onSearchClicked = onSearchClicked,
-                onCategoryClicked = onCategoryClicked
-            )
-            is HomeUiState.Error -> homeUiState as HomeUiState.Error
+        when (uiState) {
+            is HomeUiState.Loading -> {
+
+            }
+            is HomeUiState.Success -> {
+                HomeSuccessScreen(
+                    categories = uiState.categories ?: emptyList(),
+                    modifier = Modifier.padding(contentPadding),
+                    onSearchClicked = onSearchClicked,
+                    onCategoryClicked = onCategoryClicked,
+                    onCategoryLongClick = {
+                        if (editMode) {
+                            deletingCategory = it
+                            deleteCategory = true
+                        }
+                    }
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun CategoryCreationDialog(
+    value: String,
+    onDialogTextInput: (String) -> Unit,
+    onDismissRequest: () -> Unit,
+    onAcceptRequest: () -> Unit,
+    modifier: Modifier = Modifier,
+    show: Boolean = false
+) {
+    Box(modifier.fillMaxSize()) {
+        if (show) {
+            Dialog(onDismissRequest) {
+                Column {
+                    TextField(
+                        value = value,
+                        onValueChange = { onDialogTextInput(it) },
+                        placeholder = {
+                            Text(
+                                text = stringResource(R.string.category_name)
+                            )
+                        },
+                        isError = false
+                    )
+                    Row {
+                        Button(
+                            onClick = onDismissRequest,
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            Text(text = stringResource(R.string.cancel))
+                        }
+                        Button(
+                            onClick = onAcceptRequest,
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            Text(text = stringResource(R.string.add))
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun DeletionDialog(
+    text: String,
+    deleting: Any,
+    onDismissRequest: () -> Unit,
+    onAcceptRequest: (Any) -> Unit,
+    modifier: Modifier = Modifier,
+    show: Boolean = false
+) {
+    Box(modifier.fillMaxSize()) {
+        if (show) {
+            Dialog(onDismissRequest = onDismissRequest) {
+                Column {
+                    Text(text)
+                    Row {
+                        Button(
+                            onClick = onDismissRequest,
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            Text(text = stringResource(R.string.cancel))
+                        }
+                        Button(
+                            onClick = { onAcceptRequest(deleting) },
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            Text(text = stringResource(R.string.add))
+                        }
+                    }
+                }
+            }
         }
     }
 }
 
 @Composable
 fun HomeSuccessScreen(
-    categories: List<CategoryWithImgUrls>,
+    categories: List<String>,
     modifier: Modifier = Modifier,
     onSearchClicked: (String) -> Unit = {},
-    onCategoryClicked: (String) -> Unit = {}
+    onCategoryClicked: (String) -> Unit = {},
+    onCategoryLongClick: ((String) -> Unit)? = null
 ) {
     LazyColumn(modifier.fillMaxSize()) {
         item {
@@ -135,30 +216,36 @@ fun HomeSuccessScreen(
                 )
             }
         }
-        items(categories, key = { it.category.categoryId }) { category ->
-            val categoryId = category.category.categoryId
+        items(categories, key = { it }) { category ->
             CategoryCard(
-                title = categoryId,
-                imgUrl = category.imgUrls.random().imgUrl,
-                onClick = { onCategoryClicked(categoryId) }
+                title = category,
+                imgUrl = "",
+                onClick = { onCategoryClicked(category) },
+                onLongClick = { onCategoryClicked(category) }
             )
         }
     }
 }
 
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CategoryCard(
     title: String,
     imgUrl: String,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit = {}
+    onClick: () -> Unit = {},
+    onLongClick: (() -> Unit)? = null
 ) {
     Card(
         modifier = modifier
             .height(200.dp)
             .fillMaxWidth()
-            .clickable(onClick = onClick)
+            .combinedClickable(
+                onLongClick = onLongClick,
+                onClick = onClick
+            )
+
     ) {
         AsyncImage(
             model = imgUrl,
@@ -172,14 +259,6 @@ fun CategoryCard(
                 .wrapContentSize(align = Alignment.Center),
             style = MaterialTheme.typography.h4
         )
-    }
-}
-
-@Preview
-@Composable
-fun HomeScreenPreview() {
-    EldemLibTheme {
-        HomeScreen()
     }
 }
 

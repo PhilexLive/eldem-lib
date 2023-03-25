@@ -18,6 +18,7 @@ import com.philexliveprojects.eldemlib.R
 import com.philexliveprojects.eldemlib.ui.GLOBAL
 import com.philexliveprojects.eldemlib.ui.common.SearchBar
 import com.philexliveprojects.eldemlib.ui.theme.EldemLibTheme
+import com.philexliveprojects.eldemlib.ui.viewmodel.SearchViewModel
 
 @Composable
 fun SearchScreen(
