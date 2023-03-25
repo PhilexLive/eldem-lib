@@ -1,8 +1,7 @@
-package com.philexliveprojects.eldemlib.data.article
+package com.philexliveprojects.eldemlib.data.local.dao
 
 import androidx.room.*
-import com.philexliveprojects.eldemlib.data.entity.Article
-import com.philexliveprojects.eldemlib.data.entity.CategoryWithArticles
+import com.philexliveprojects.eldemlib.data.local.entities.Article
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -24,5 +23,5 @@ interface ArticleDao {
         "SELECT * FROM Category " +
                 "WHERE categoryId = :categoryId;"
     )
-    fun getCategory(categoryId: String): Flow<CategoryWithArticles?>
+    fun getCategory(categoryId: String): Flow<Article>
 }

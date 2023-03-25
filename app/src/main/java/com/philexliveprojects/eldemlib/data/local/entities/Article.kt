@@ -1,4 +1,4 @@
-package com.philexliveprojects.eldemlib.data.entity
+package com.philexliveprojects.eldemlib.data.local.entities
 
 import androidx.room.*
 
@@ -9,7 +9,8 @@ data class Article(
     val articleId: Int,
     val name: String,
     val description: String,
-    val categoryRelation: String
+    val category: String,
+    val imgUrls: String
 )
 
 // Represents a paragraph of an article
@@ -21,17 +22,5 @@ data class Paragraph(
     val position: Int,
     val title: String,
     val body: String
-)
-
-// Represent a category
-@Entity
-data class Category(
-    @PrimaryKey val categoryId: String
-)
-
-// Represents an image url
-@Entity
-data class ImgUrl(
-    @PrimaryKey val imgUrl: String
 )
 

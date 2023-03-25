@@ -20,7 +20,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.philexliveprojects.eldemlib.R
-import com.philexliveprojects.eldemlib.data.entity.CategoryWithImgUrls
+import com.philexliveprojects.eldemlib.data.local.entities.CategoryWithImgUrls
 import com.philexliveprojects.eldemlib.ui.AppViewModelProvider
 import com.philexliveprojects.eldemlib.ui.GLOBAL
 import com.philexliveprojects.eldemlib.ui.common.SearchBar

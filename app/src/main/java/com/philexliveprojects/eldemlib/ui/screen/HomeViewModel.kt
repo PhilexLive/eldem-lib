@@ -4,9 +4,8 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.philexliveprojects.eldemlib.data.category.CategoryRepository
-import com.philexliveprojects.eldemlib.data.entity.Category
-import com.philexliveprojects.eldemlib.data.entity.CategoryWithImgUrls
-import com.philexliveprojects.eldemlib.data.image.ImageRepository
+import com.philexliveprojects.eldemlib.data.local.entities.Category
+import com.philexliveprojects.eldemlib.data.local.entities.CategoryWithImgUrls
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch

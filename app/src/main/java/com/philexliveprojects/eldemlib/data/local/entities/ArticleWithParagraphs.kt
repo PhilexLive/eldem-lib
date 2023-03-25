@@ -1,4 +1,4 @@
-package com.philexliveprojects.eldemlib.data.entity
+package com.philexliveprojects.eldemlib.data.local.entities
 
 import androidx.room.Embedded
 import androidx.room.Relation

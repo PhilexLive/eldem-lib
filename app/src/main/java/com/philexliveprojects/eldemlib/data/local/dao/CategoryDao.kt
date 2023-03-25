@@ -1,9 +1,9 @@
-package com.philexliveprojects.eldemlib.data.category
+package com.philexliveprojects.eldemlib.data.local.dao
 
 import androidx.room.*
-import com.philexliveprojects.eldemlib.data.entity.Category
-import com.philexliveprojects.eldemlib.data.entity.CategoryAndImgUrlCrossRef
-import com.philexliveprojects.eldemlib.data.entity.CategoryWithImgUrls
+import com.philexliveprojects.eldemlib.data.local.entities.Category
+import com.philexliveprojects.eldemlib.data.local.entities.CategoryAndImgUrlCrossRef
+import com.philexliveprojects.eldemlib.data.local.entities.CategoryWithImgUrls
 import kotlinx.coroutines.flow.Flow
 
 @Dao

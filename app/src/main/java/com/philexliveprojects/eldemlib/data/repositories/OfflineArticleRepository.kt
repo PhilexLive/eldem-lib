@@ -1,6 +1,7 @@
-package com.philexliveprojects.eldemlib.data.article
+package com.philexliveprojects.eldemlib.data.repositories
 
-import com.philexliveprojects.eldemlib.data.entity.Article
+import com.philexliveprojects.eldemlib.data.local.dao.ArticleDao
+import com.philexliveprojects.eldemlib.data.local.entities.Article
 
 class OfflineArticleRepository(private val articleDao: ArticleDao) : ArticleRepository {
     override suspend fun insertArticle(article: Article) = articleDao.insertArticle(article)

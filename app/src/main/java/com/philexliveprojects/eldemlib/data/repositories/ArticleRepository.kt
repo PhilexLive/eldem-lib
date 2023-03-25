@@ -1,6 +1,6 @@
-package com.philexliveprojects.eldemlib.data.article
+package com.philexliveprojects.eldemlib.data.repositories
 
-import com.philexliveprojects.eldemlib.data.entity.Article
+import com.philexliveprojects.eldemlib.data.local.entities.Article
 
 /**
  * Article repository interface
