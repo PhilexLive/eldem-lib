@@ -23,5 +23,5 @@ class OfflineArticleRepository(private val articleDao: ArticleDao) : ArticleRepo
     override fun getArticle(articleId: String): Flow<ArticleWithParagraphs> =
         articleDao.getArticle(articleId)
 
-    override fun getRecent(): Flow<List<ArticleListItem>> = articleDao.getRecent()
+    override fun getRecentArticles(): Flow<List<ArticleListItem>> = articleDao.getRecentArticles()
 }

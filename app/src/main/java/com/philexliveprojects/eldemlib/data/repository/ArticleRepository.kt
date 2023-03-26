@@ -23,5 +23,5 @@ interface ArticleRepository {
 
     fun getArticle(articleId: String): Flow<ArticleWithParagraphs>
 
-    fun getRecent(): Flow<List<ArticleListItem>>
+    fun getRecentArticles(): Flow<List<ArticleListItem>>
 }

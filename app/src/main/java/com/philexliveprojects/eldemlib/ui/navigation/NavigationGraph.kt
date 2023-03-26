@@ -3,13 +3,11 @@ package com.philexliveprojects.eldemlib.ui.navigation
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.philexliveprojects.eldemlib.data.AppContainer
 import com.philexliveprojects.eldemlib.ui.*
 import com.philexliveprojects.eldemlib.ui.screen.*
 
@@ -28,12 +26,9 @@ fun NavGraph(
         // Home Screen
         composable(route = HOME_ROUTE) {
             HomeScreen(
-                onCategoryClicked = { groupId ->
-                    navHostController.navigate("$GROUP/$groupId")
-                },
-                onSearchClicked = { tag ->
-                    navHostController.navigate("$SEARCH/$tag")
-                },
+                onRecentClicked = { navHostController.navigate("$ARTICLE/$it") },
+                onCategoryClicked = { navHostController.navigate("$CATEGORY/$it") },
+                onSearchClicked = { navHostController.navigate("$SEARCH/$it") },
                 editMode = editMode,
                 onBottomSheetExpand = onBottomSheetExpand
             )
@@ -41,30 +36,24 @@ fun NavGraph(
 
         // Group Screen
         composable(
-            route = GROUP_ROUTE,
-            arguments = listOf(navArgument(GROUP_ID) { type = NavType.StringType })
+            route = CATEGORY_ROUTE,
+            arguments = listOf(navArgument(CATEGORY_ID) { type = NavType.StringType })
         ) { backStackEntry ->
-            GroupScreen(
-                groupId = backStackEntry.arguments?.getString(GROUP_ID) ?: "",
-                onUnitClicked = { unitId ->
-                    navHostController.navigate("$UNIT/$unitId")
-                },
-                onSearchClicked = { tag ->
-                    navHostController.navigate("$SEARCH/$tag")
-                }
+            CategoryScreen(
+                groupId = backStackEntry.arguments?.getString(CATEGORY_ID) ?: "",
+                onArticleClicked = { navHostController.navigate("$ARTICLE/$it") },
+                onSearchClicked = { navHostController.navigate("$SEARCH/$it") }
             )
         }
 
         // Unit Screen
         composable(
-            route = UNIT_ROUTE,
-            arguments = listOf(navArgument(UNIT_ID) { type = NavType.IntType })
+            route = ARTICLE_ROUTE,
+            arguments = listOf(navArgument(ARTICLE_ID) { type = NavType.LongType })
         ) { backStackEntry ->
             ArticleScreen(
-                pieceId = backStackEntry.arguments?.getInt(UNIT_ID) ?: -1,
-                onImageClicked = { imgUrl ->
-                    navHostController.navigate("$IMAGE/$imgUrl")
-                }
+                pieceId = backStackEntry.arguments?.getInt(ARTICLE_ID) ?: -1,
+                onImageClicked = { navHostController.navigate("$IMAGE/$it") }
             )
         }
 
@@ -83,7 +72,7 @@ fun NavGraph(
         ) { backStackEntry ->
             SearchScreen(
                 searchScope = backStackEntry.arguments?.getString(SEARCH_SCOPE) ?: GLOBAL,
-                onNavigateBack = {navHostController.navigateUp()})
+                onNavigateBack = { navHostController.navigateUp() })
         }
     }
 }

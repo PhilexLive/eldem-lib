@@ -9,7 +9,7 @@ import com.philexliveprojects.eldemlib.data.local.converter.ArticleConverter
 import com.philexliveprojects.eldemlib.data.local.dao.ArticleDao
 import com.philexliveprojects.eldemlib.data.local.entity.*
 
-@Database(entities = [Article::class, Paragraph::class], version = 1, exportSchema = false)
+@Database(entities = [Article::class, Paragraph::class], version = 2, exportSchema = false)
 @TypeConverters(ArticleConverter::class)
 abstract class ArticleDatabase : RoomDatabase() {
     abstract fun articleDao(): ArticleDao

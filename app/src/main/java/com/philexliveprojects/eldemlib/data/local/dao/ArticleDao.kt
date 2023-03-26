@@ -29,7 +29,10 @@ interface ArticleDao {
     )
     suspend fun deleteCategory(category: String)
 
-    @Query("SELECT DISTINCT category FROM Article;")
+    @Query(
+        "SELECT DISTINCT category " +
+                "FROM Article;"
+    )
     fun getAllCategories(): Flow<List<String>>
 
     @Query(
@@ -56,8 +59,9 @@ interface ArticleDao {
                 "title AS title, " +
                 "description AS description " +
                 "FROM Article " +
+                "WHERE date IS NOT NULL " +
                 "ORDER BY date DESC " +
                 "LIMIT $LIMIT OFFSET $OFFSET;"
     )
-    fun getRecent(): Flow<List<ArticleListItem>>
+    fun getRecentArticles(): Flow<List<ArticleListItem>>
 }

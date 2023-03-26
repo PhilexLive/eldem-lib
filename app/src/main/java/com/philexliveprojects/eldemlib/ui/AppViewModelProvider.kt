@@ -6,12 +6,18 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.philexliveprojects.eldemlib.EldemLibApplication
 import com.philexliveprojects.eldemlib.ui.screen.*
+import com.philexliveprojects.eldemlib.ui.viewmodel.ArticleViewModel
 import com.philexliveprojects.eldemlib.ui.viewmodel.HomeViewModel
 
 object AppViewModelProvider {
     val Factory = viewModelFactory {
         initializer {
             HomeViewModel(
+                application().container.articleRepository
+            )
+        }
+        initializer {
+            ArticleViewModel(
                 application().container.articleRepository
             )
         }

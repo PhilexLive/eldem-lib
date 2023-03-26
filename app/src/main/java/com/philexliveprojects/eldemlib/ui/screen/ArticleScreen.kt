@@ -21,6 +21,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.philexliveprojects.eldemlib.R
+import com.philexliveprojects.eldemlib.ui.AppViewModelProvider
 import com.philexliveprojects.eldemlib.ui.viewmodel.ArticleViewModel
 
 /*
@@ -32,9 +33,9 @@ import com.philexliveprojects.eldemlib.ui.viewmodel.ArticleViewModel
 
 @Composable
 fun ArticleScreen(
-    pieceId: Int,
+    articleId: Long,
     modifier: Modifier = Modifier,
-    viewModel: ArticleViewModel = viewModel(),
+    viewModel: ArticleViewModel = viewModel(factory = AppViewModelProvider.Factory),
     editMode: Boolean = false,
     onImageClicked: (String) -> Unit = {}
 ) {

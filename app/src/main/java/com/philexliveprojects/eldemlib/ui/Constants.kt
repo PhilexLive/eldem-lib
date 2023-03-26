@@ -4,14 +4,14 @@ const val GLOBAL = "global"
 
 const val HOME_ROUTE = "home"
 
-const val GROUP = "group"
-const val GROUP_ID = "groupId"
+const val CATEGORY = "category"
+const val CATEGORY_ID = "categoryId"
 
-const val GROUP_ROUTE = "$GROUP/{$GROUP_ID}"
-const val UNIT = "unit"
-const val UNIT_ID = "unitId"
+const val CATEGORY_ROUTE = "$CATEGORY/{$CATEGORY_ID}"
+const val ARTICLE = "article"
+const val ARTICLE_ID = "articleId"
 
-const val UNIT_ROUTE = "$UNIT/{$UNIT_ID}"
+const val ARTICLE_ROUTE = "$ARTICLE/{$ARTICLE_ID}"
 const val IMAGE = "image"
 const val IMAGE_URL = "imgUrl"
 

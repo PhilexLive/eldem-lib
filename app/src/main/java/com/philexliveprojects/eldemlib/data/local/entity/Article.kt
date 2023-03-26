@@ -13,7 +13,7 @@ data class Article(
     val category: String,
     @kotlinx.serialization.Serializable
     val imgUrls: List<String>,
-    val date: Date
+    val date: Date?
 )
 
 // Represents a paragraph of an article

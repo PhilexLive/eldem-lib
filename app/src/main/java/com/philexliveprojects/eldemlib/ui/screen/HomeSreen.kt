@@ -20,38 +20,51 @@ import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.philexliveprojects.eldemlib.R
+import com.philexliveprojects.eldemlib.data.local.entity.ArticleListItem
 import com.philexliveprojects.eldemlib.ui.AppViewModelProvider
 import com.philexliveprojects.eldemlib.ui.GLOBAL
 import com.philexliveprojects.eldemlib.ui.common.SearchBar
 import com.philexliveprojects.eldemlib.ui.theme.EldemLibTheme
-import com.philexliveprojects.eldemlib.ui.viewmodel.HomeUiState
 import com.philexliveprojects.eldemlib.ui.viewmodel.HomeViewModel
 
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = viewModel(factory = AppViewModelProvider.Factory),
-    onCategoryClicked: (String) -> Unit = {},
     onSearchClicked: (String) -> Unit = {},
+    onRecentClicked: (Long) -> Unit = {},
+    onCategoryClicked: (String) -> Unit = {},
     onBottomSheetExpand: () -> Unit = {},
     editMode: Boolean = false
 ) {
+    val recentArticles by viewModel.recentArticles.collectAsState()
+    val categories by viewModel.categories.collectAsState()
+    val tempCategories by viewModel.tempCategories.collectAsState()
 
     var createCategory by remember { mutableStateOf(false) }
+    var createCategoryError by remember { mutableStateOf(false) }
     var creatingCategory by remember { mutableStateOf("") }
     CategoryCreationDialog(
         value = creatingCategory,
-        onDialogTextInput = { creatingCategory = it },
+        onDialogTextInput = {
+            createCategoryError = false
+            if (it.length < 20) creatingCategory = it
+        },
         onDismissRequest = {
             creatingCategory = ""
             createCategory = false
         },
         onAcceptRequest = {
-            creatingCategory = ""
-            createCategory = false
-            if (viewModel.homeUiState is HomeUiState.Success)
-                TODO("HomeScreen: Add new empty category creation.")
+            if (creatingCategory.isNotEmpty()) {
+                viewModel.addTempCategory(creatingCategory)
+                creatingCategory = ""
+                createCategory = false
+            } else {
+                createCategoryError = true
+            }
+
         },
+        isError = createCategoryError,
         show = createCategory
     )
 
@@ -66,13 +79,13 @@ fun HomeScreen(
         },
         onAcceptRequest = {
             viewModel.deleteCategory(deletingCategory)
+            viewModel.deleteTempCategory(deletingCategory)
             deletingCategory = ""
             deleteCategory = false
         },
         show = deleteCategory
     )
 
-    val uiState = viewModel.homeUiState
     Scaffold(
         topBar = {
             TopAppBar {
@@ -95,27 +108,22 @@ fun HomeScreen(
             }
         },
         floatingActionButtonPosition = FabPosition.End,
-        modifier = Modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize()
     ) { contentPadding ->
-        when (uiState) {
-            is HomeUiState.Loading -> {
-
+        HomeList(
+            recentArticles = recentArticles,
+            categories = (categories + tempCategories).sorted(),
+            modifier = Modifier.padding(contentPadding),
+            onSearchClick = onSearchClicked,
+            onRecentClick = onRecentClicked,
+            onCategoryClick = onCategoryClicked,
+            onCategoryLongClick = {
+                if (editMode) {
+                    deletingCategory = it
+                    deleteCategory = true
+                }
             }
-            is HomeUiState.Success -> {
-                HomeSuccessScreen(
-                    categories = uiState.categories ?: emptyList(),
-                    modifier = Modifier.padding(contentPadding),
-                    onSearchClicked = onSearchClicked,
-                    onCategoryClicked = onCategoryClicked,
-                    onCategoryLongClick = {
-                        if (editMode) {
-                            deletingCategory = it
-                            deleteCategory = true
-                        }
-                    }
-                )
-            }
-        }
+        )
     }
 }
 
@@ -126,6 +134,7 @@ fun CategoryCreationDialog(
     onDismissRequest: () -> Unit,
     onAcceptRequest: () -> Unit,
     modifier: Modifier = Modifier,
+    isError: Boolean = false,
     show: Boolean = false
 ) {
     Box(modifier.fillMaxSize()) {
@@ -140,7 +149,8 @@ fun CategoryCreationDialog(
                                 text = stringResource(R.string.category_name)
                             )
                         },
-                        isError = false
+                        isError = isError,
+                        maxLines = 1
                     )
                     Row {
                         Button(
@@ -197,12 +207,14 @@ fun DeletionDialog(
 }
 
 @Composable
-fun HomeSuccessScreen(
+fun HomeList(
+    recentArticles: List<ArticleListItem>,
     categories: List<String>,
     modifier: Modifier = Modifier,
-    onSearchClicked: (String) -> Unit = {},
-    onCategoryClicked: (String) -> Unit = {},
-    onCategoryLongClick: ((String) -> Unit)? = null
+    onSearchClick: (String) -> Unit = {},
+    onRecentClick: (Long) -> Unit = {},
+    onCategoryClick: (String) -> Unit = {},
+    onCategoryLongClick: ((String) -> Unit) = {}
 ) {
     LazyColumn(modifier.fillMaxSize()) {
         item {
@@ -211,17 +223,26 @@ fun HomeSuccessScreen(
                     placeholderText = stringResource(R.string.search),
                     value = "",
                     onValueChange = {},
-                    modifier = Modifier.clickable { onSearchClicked(GLOBAL) },
+                    modifier = Modifier.clickable { onSearchClick(GLOBAL) },
                     enabled = false
+                )
+            }
+        }
+        item {
+            for (recent in recentArticles) {
+                Article(
+                    title = recent.title,
+                    description = recent.description,
+                    onClick = { onRecentClick(recent.articleId) }
                 )
             }
         }
         items(categories, key = { it }) { category ->
             CategoryCard(
                 title = category,
-                imgUrl = "",
-                onClick = { onCategoryClicked(category) },
-                onLongClick = { onCategoryClicked(category) }
+                imgUrl = category,
+                onClick = { onCategoryClick(category) },
+                onLongClick = { onCategoryLongClick(category) }
             )
         }
     }

@@ -14,8 +14,8 @@ class ArticleConverter {
     fun convertJsonToStringList(json: String): List<String> = Json.decodeFromString(json)
 
     @TypeConverter
-    fun convertDateToTime(date: Date): Long = date.time
+    fun convertDateToTime(date: Date?): Long? = date?.time
 
     @TypeConverter
-    fun convertTimeToDate(time: Long): Date = Date(time)
+    fun convertTimeToDate(time: Long?): Date? = if (time != null) Date(time) else null
 }
