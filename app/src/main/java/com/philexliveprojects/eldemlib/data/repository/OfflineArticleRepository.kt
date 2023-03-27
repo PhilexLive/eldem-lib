@@ -4,10 +4,17 @@ import com.philexliveprojects.eldemlib.data.local.dao.ArticleDao
 import com.philexliveprojects.eldemlib.data.local.entity.Article
 import com.philexliveprojects.eldemlib.data.local.entity.ArticleListItem
 import com.philexliveprojects.eldemlib.data.local.entity.ArticleWithParagraphs
+import com.philexliveprojects.eldemlib.data.local.entity.Paragraph
 import kotlinx.coroutines.flow.Flow
 
 class OfflineArticleRepository(private val articleDao: ArticleDao) : ArticleRepository {
     override suspend fun insertArticle(article: Article) = articleDao.insertArticle(article)
+
+    override suspend fun insertArticleWithParagraphs(articleWithParagraphs: ArticleWithParagraphs) =
+        articleDao.insertArticleWithParagraph(articleWithParagraphs)
+
+    override suspend fun insertParagraph(paragraphs: List<Paragraph>) =
+        articleDao.insertParagraphs(paragraphs)
 
     override suspend fun updateArticle(article: Article) = articleDao.updateArticle(article)
 

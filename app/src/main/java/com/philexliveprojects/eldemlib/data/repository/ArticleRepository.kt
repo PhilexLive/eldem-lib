@@ -3,6 +3,7 @@ package com.philexliveprojects.eldemlib.data.repository
 import com.philexliveprojects.eldemlib.data.local.entity.Article
 import com.philexliveprojects.eldemlib.data.local.entity.ArticleListItem
 import com.philexliveprojects.eldemlib.data.local.entity.ArticleWithParagraphs
+import com.philexliveprojects.eldemlib.data.local.entity.Paragraph
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -10,6 +11,10 @@ import kotlinx.coroutines.flow.Flow
  */
 interface ArticleRepository {
     suspend fun insertArticle(article: Article)
+
+    suspend fun insertArticleWithParagraphs(articleWithParagraphs: ArticleWithParagraphs)
+
+    suspend fun insertParagraph(paragraphs: List<Paragraph>)
 
     suspend fun updateArticle(article: Article)
 

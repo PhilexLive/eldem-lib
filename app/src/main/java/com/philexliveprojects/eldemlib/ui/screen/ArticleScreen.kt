@@ -33,7 +33,6 @@ import com.philexliveprojects.eldemlib.ui.viewmodel.ArticleViewModel
 
 @Composable
 fun ArticleScreen(
-    articleId: Long,
     modifier: Modifier = Modifier,
     viewModel: ArticleViewModel = viewModel(factory = AppViewModelProvider.Factory),
     editMode: Boolean = false,

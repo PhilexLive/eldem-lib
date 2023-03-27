@@ -34,6 +34,7 @@ data class ArticleWithParagraphs(
     val paragraphs: List<Paragraph>
 )
 
+
 data class ArticleListItem(
     val articleId: Long,
     val title: String,

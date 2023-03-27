@@ -4,6 +4,7 @@ import androidx.room.*
 import com.philexliveprojects.eldemlib.data.local.entity.Article
 import com.philexliveprojects.eldemlib.data.local.entity.ArticleListItem
 import com.philexliveprojects.eldemlib.data.local.entity.ArticleWithParagraphs
+import com.philexliveprojects.eldemlib.data.local.entity.Paragraph
 import kotlinx.coroutines.flow.Flow
 
 private const val LIMIT = 5
@@ -11,11 +12,16 @@ private const val OFFSET = 0
 
 @Dao
 interface ArticleDao {
-    /*
-     * Article access
-     */
+    suspend fun insertArticleWithParagraph(articleWithParagraphs: ArticleWithParagraphs) {
+        insertArticle(articleWithParagraphs.article)
+        insertParagraphs(articleWithParagraphs.paragraphs)
+    }
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertArticle(article: Article)
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertParagraphs(paragraphs: List<Paragraph>)
 
     @Update
     suspend fun updateArticle(article: Article)

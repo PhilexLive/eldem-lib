@@ -38,10 +38,10 @@ fun NavGraph(
         composable(
             route = CATEGORY_ROUTE,
             arguments = listOf(navArgument(CATEGORY_ID) { type = NavType.StringType })
-        ) { backStackEntry ->
+        ) {
             CategoryScreen(
-                groupId = backStackEntry.arguments?.getString(CATEGORY_ID) ?: "",
-                onArticleClicked = { navHostController.navigate("$ARTICLE/$it") },
+                category = checkNotNull(it.arguments?.getString(CATEGORY_ID)),
+                onArticleClick = { navHostController.navigate("$ARTICLE/$it") },
                 onSearchClicked = { navHostController.navigate("$SEARCH/$it") }
             )
         }
@@ -50,9 +50,8 @@ fun NavGraph(
         composable(
             route = ARTICLE_ROUTE,
             arguments = listOf(navArgument(ARTICLE_ID) { type = NavType.LongType })
-        ) { backStackEntry ->
+        ) {
             ArticleScreen(
-                pieceId = backStackEntry.arguments?.getInt(ARTICLE_ID) ?: -1,
                 onImageClicked = { navHostController.navigate("$IMAGE/$it") }
             )
         }

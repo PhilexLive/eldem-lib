@@ -3,6 +3,7 @@ package com.philexliveprojects.eldemlib.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.philexliveprojects.eldemlib.data.repository.ArticleRepository
+import com.philexliveprojects.eldemlib.ui.TIMEOUT_MILLIS
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -13,13 +14,13 @@ class HomeViewModel(
 ) : ViewModel() {
     val recentArticles = articleRepository.getRecentArticles().map { it }.stateIn(
         scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5_000L),
+        started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
         initialValue = emptyList()
     )
 
     val categories = articleRepository.getAllCategories().map { it }.stateIn(
         scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5_000L),
+        started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
         initialValue = emptyList()
     )
 
