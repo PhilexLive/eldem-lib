@@ -16,6 +16,7 @@ object AppViewModelProvider {
                 application().container.articleRepository
             )
         }
+
         initializer {
             CategoryViewModel(
                 createSavedStateHandle(),

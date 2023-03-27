@@ -10,25 +10,29 @@ import kotlinx.coroutines.launch
 
 
 class HomeViewModel(
-    private val articleRepository: ArticleRepository
+    private val repository: ArticleRepository
 ) : ViewModel() {
-    val recentArticles = articleRepository.getRecentArticles().map { it }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
-        initialValue = emptyList()
-    )
+    val recentArticles = repository.getRecentArticles()
+        .map { it }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
+            initialValue = emptyList()
+        )
 
-    val categories = articleRepository.getAllCategories().map { it }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
-        initialValue = emptyList()
-    )
+    val categories = repository.getAllCategories()
+        .map { it }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
+            initialValue = emptyList()
+        )
 
     private val _tempCategories = MutableStateFlow(mutableListOf<String>())
     val tempCategories = _tempCategories.asStateFlow()
 
     fun deleteCategory(category: String) = viewModelScope.launch(Dispatchers.IO) {
-        articleRepository.deleteCategory(category)
+        repository.deleteCategory(category)
     }
 
     fun addTempCategory(category: String) = _tempCategories.value.add(category)

@@ -30,8 +30,8 @@ fun CategoryScreen(
     onSearchClicked: (String) -> Unit = {},
     editMode: Boolean = false
 ) {
-
     val articles by viewModel.articles.collectAsState()
+
 //    var deletingArticle by remember { mutableStateOf(Long) }
 //    var deleteArticle by remember { mutableStateOf(false) }
 //    DeletionDialog(
@@ -74,7 +74,7 @@ fun CategoryList(
                 )
             }
         }
-        items(articles, key = { it }) { article ->
+        items(articles, key = { it.articleId }) { article ->
             Article(
                 title = article.title,
                 description = article.description,
