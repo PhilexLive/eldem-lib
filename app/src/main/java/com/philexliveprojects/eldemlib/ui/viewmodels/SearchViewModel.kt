@@ -1,4 +1,4 @@
-package com.philexliveprojects.eldemlib.ui.viewmodel
+package com.philexliveprojects.eldemlib.ui.viewmodels
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel

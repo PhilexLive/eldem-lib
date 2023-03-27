@@ -1,4 +1,4 @@
-package com.philexliveprojects.eldemlib.ui.screen
+package com.philexliveprojects.eldemlib.ui.compose
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.philexliveprojects.eldemlib.R
 import com.philexliveprojects.eldemlib.ui.AppViewModelProvider
-import com.philexliveprojects.eldemlib.ui.viewmodel.ArticleViewModel
+import com.philexliveprojects.eldemlib.ui.viewmodels.ArticleViewModel
 
 /*
  * The name "Value" For this Screen means that this contain something undefined,

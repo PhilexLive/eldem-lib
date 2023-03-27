@@ -5,9 +5,9 @@ import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.philexliveprojects.eldemlib.EldemLibApplication
-import com.philexliveprojects.eldemlib.ui.viewmodel.CategoryViewModel
-import com.philexliveprojects.eldemlib.ui.viewmodel.HomeViewModel
+import com.philexliveprojects.eldemlib.MainApplication
+import com.philexliveprojects.eldemlib.ui.viewmodels.CategoryViewModel
+import com.philexliveprojects.eldemlib.ui.viewmodels.HomeViewModel
 
 object AppViewModelProvider {
     val Factory = viewModelFactory {
@@ -26,5 +26,5 @@ object AppViewModelProvider {
     }
 }
 
-private fun CreationExtras.application(): EldemLibApplication =
-    (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as EldemLibApplication)
+private fun CreationExtras.application(): MainApplication =
+    (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as MainApplication)

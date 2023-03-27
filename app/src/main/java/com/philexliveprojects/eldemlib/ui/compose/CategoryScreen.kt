@@ -1,4 +1,4 @@
-package com.philexliveprojects.eldemlib.ui.screen
+package com.philexliveprojects.eldemlib.ui.compose
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
@@ -19,7 +19,7 @@ import com.philexliveprojects.eldemlib.data.local.entity.ArticleListItem
 import com.philexliveprojects.eldemlib.ui.AppViewModelProvider
 import com.philexliveprojects.eldemlib.ui.GLOBAL
 import com.philexliveprojects.eldemlib.ui.common.SearchBar
-import com.philexliveprojects.eldemlib.ui.viewmodel.CategoryViewModel
+import com.philexliveprojects.eldemlib.ui.viewmodels.CategoryViewModel
 
 @Composable
 fun CategoryScreen(

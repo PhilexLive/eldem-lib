@@ -1,4 +1,4 @@
-package com.philexliveprojects.eldemlib.ui.viewmodel
+package com.philexliveprojects.eldemlib.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
 import com.philexliveprojects.eldemlib.data.repository.ArticleRepository

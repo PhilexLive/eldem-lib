@@ -1,4 +1,4 @@
-package com.philexliveprojects.eldemlib.ui.screen
+package com.philexliveprojects.eldemlib.ui.compose
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,7 +18,7 @@ import com.philexliveprojects.eldemlib.R
 import com.philexliveprojects.eldemlib.ui.GLOBAL
 import com.philexliveprojects.eldemlib.ui.common.SearchBar
 import com.philexliveprojects.eldemlib.ui.theme.EldemLibTheme
-import com.philexliveprojects.eldemlib.ui.viewmodel.SearchViewModel
+import com.philexliveprojects.eldemlib.ui.viewmodels.SearchViewModel
 
 @Composable
 fun SearchScreen(

@@ -10,19 +10,17 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.philexliveprojects.eldemlib.ui.screen.clearFocusOnKeyboardDismiss
+import com.philexliveprojects.eldemlib.ui.compose.clearFocusOnKeyboardDismiss
 import com.philexliveprojects.eldemlib.ui.theme.EldemLibTheme
 
 @OptIn(ExperimentalComposeUiApi::class)

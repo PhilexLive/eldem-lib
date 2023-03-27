@@ -1,4 +1,4 @@
-package com.philexliveprojects.eldemlib.ui.screen
+package com.philexliveprojects.eldemlib.ui.compose
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
@@ -8,7 +8,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -25,86 +24,27 @@ import com.philexliveprojects.eldemlib.ui.AppViewModelProvider
 import com.philexliveprojects.eldemlib.ui.GLOBAL
 import com.philexliveprojects.eldemlib.ui.common.SearchBar
 import com.philexliveprojects.eldemlib.ui.theme.EldemLibTheme
-import com.philexliveprojects.eldemlib.ui.viewmodel.HomeViewModel
+import com.philexliveprojects.eldemlib.ui.viewmodels.HomeViewModel
+
+
+const val HOME_ROUTE = "home"
 
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = viewModel(factory = AppViewModelProvider.Factory),
     onSearchClicked: (String) -> Unit = {},
-    onRecentClicked: (Long) -> Unit = {},
-    onCategoryClicked: (String) -> Unit = {},
-    onBottomSheetExpand: () -> Unit = {},
-    editMode: Boolean = false
+    onArticleClick: (Long) -> Unit = {},
+    onCategoryClick: (String) -> Unit = {}
 ) {
     val recentArticles by viewModel.recentArticles.collectAsState()
     val categories by viewModel.categories.collectAsState()
     val tempCategories by viewModel.tempCategories.collectAsState()
 
-    var createCategory by remember { mutableStateOf(false) }
-    var createCategoryError by remember { mutableStateOf(false) }
-    var creatingCategory by remember { mutableStateOf("") }
-    CategoryCreationDialog(
-        value = creatingCategory,
-        onDialogTextInput = {
-            createCategoryError = false
-            if (it.length < 20) creatingCategory = it
-        },
-        onDismissRequest = {
-            creatingCategory = ""
-            createCategory = false
-        },
-        onAcceptRequest = {
-            if (creatingCategory.isNotEmpty()) {
-                viewModel.addTempCategory(creatingCategory)
-                creatingCategory = ""
-                createCategory = false
-            } else {
-                createCategoryError = true
-            }
-
-        },
-        isError = createCategoryError,
-        show = createCategory
-    )
-
-    var deletingCategory by remember { mutableStateOf("") }
-    var deleteCategory by remember { mutableStateOf(false) }
-    DeletionDialog(
-        text = stringResource(R.string.delete_category, deletingCategory),
-        deleting = deletingCategory,
-        onDismissRequest = {
-            deletingCategory = ""
-            deleteCategory = false
-        },
-        onAcceptRequest = {
-            viewModel.deleteCategory(deletingCategory)
-            viewModel.deleteTempCategory(deletingCategory)
-            deletingCategory = ""
-            deleteCategory = false
-        },
-        show = deleteCategory
-    )
-
     Scaffold(
         topBar = {
             TopAppBar {
-                IconButton(onClick = onBottomSheetExpand) {
-                    Icon(
-                        imageVector = Icons.Default.Settings,
-                        contentDescription = stringResource(R.string.preferences)
-                    )
-                }
-            }
-        },
-        floatingActionButton = {
-            if (editMode) {
-                FloatingActionButton(onClick = { createCategory = true }) {
-                    Icon(
-                        imageVector = Icons.Default.Add,
-                        contentDescription = stringResource(R.string.add_new_category)
-                    )
-                }
+                TODO("Implement app bar")
             }
         },
         floatingActionButtonPosition = FabPosition.End,
@@ -115,13 +55,9 @@ fun HomeScreen(
             categories = (categories + tempCategories).sorted(),
             modifier = Modifier.padding(contentPadding),
             onSearchClick = onSearchClicked,
-            onRecentClick = onRecentClicked,
-            onCategoryClick = onCategoryClicked,
+            onRecentClick = onArticleClick,
+            onCategoryClick = onCategoryClick,
             onCategoryLongClick = {
-                if (editMode) {
-                    deletingCategory = it
-                    deleteCategory = true
-                }
             }
         )
     }

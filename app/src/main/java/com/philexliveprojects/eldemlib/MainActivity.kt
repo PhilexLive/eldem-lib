@@ -8,12 +8,15 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
-import com.philexliveprojects.eldemlib.ui.EldemLibScreen
+import com.philexliveprojects.eldemlib.ui.EldemLibApp
 import com.philexliveprojects.eldemlib.ui.theme.EldemLibTheme
 
 class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -23,12 +26,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    WindowCompat.setDecorFitsSystemWindows(window, false)
-                    EldemLibScreen(
-                        modifier = Modifier
-                            .statusBarsPadding()
-                            .navigationBarsPadding()
-                    )
+                    val windowSizeClass = calculateWindowSizeClass(this)
+                    EldemLibApp(windowSizeClass.widthSizeClass)
                 }
             }
         }

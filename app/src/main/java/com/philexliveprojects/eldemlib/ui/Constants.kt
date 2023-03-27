@@ -2,8 +2,6 @@ package com.philexliveprojects.eldemlib.ui
 
 const val GLOBAL = "global"
 
-const val HOME_ROUTE = "home"
-
 const val CATEGORY = "category"
 const val CATEGORY_ID = "categoryId"
 const val CATEGORY_ROUTE = "$CATEGORY/{$CATEGORY_ID}"
