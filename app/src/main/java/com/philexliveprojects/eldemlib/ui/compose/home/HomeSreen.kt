@@ -7,60 +7,42 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.philexliveprojects.eldemlib.R
 import com.philexliveprojects.eldemlib.data.local.entity.ArticleListItem
-import com.philexliveprojects.eldemlib.ui.AppViewModelProvider
 import com.philexliveprojects.eldemlib.ui.GLOBAL
 import com.philexliveprojects.eldemlib.ui.common.SearchBar
-import com.philexliveprojects.eldemlib.ui.theme.EldemLibTheme
-import com.philexliveprojects.eldemlib.ui.viewmodels.HomeViewModel
+import com.philexliveprojects.eldemlib.ui.utilities.ContentType
+import com.philexliveprojects.eldemlib.ui.viewmodels.EldemLibUiState
 
 
 const val HOME_ROUTE = "home"
 
 @Composable
 fun HomeScreen(
+    contentType: ContentType,
+    uiState: EldemLibUiState,
     modifier: Modifier = Modifier,
-    viewModel: HomeViewModel = viewModel(factory = AppViewModelProvider.Factory),
-    onSearchClicked: (String) -> Unit = {},
-    onArticleClick: (Long) -> Unit = {},
-    onCategoryClick: (String) -> Unit = {}
 ) {
-    val recentArticles by viewModel.recentArticles.collectAsState()
-    val categories by viewModel.categories.collectAsState()
-    val tempCategories by viewModel.tempCategories.collectAsState()
+    if (contentType == ContentType.MultipleListsAndDetail) {
 
-    Scaffold(
-        topBar = {
-            TopAppBar {
-                TODO("Implement app bar")
-            }
-        },
-        floatingActionButtonPosition = FabPosition.End,
-        modifier = modifier.fillMaxSize()
-    ) { contentPadding ->
-        HomeList(
-            recentArticles = recentArticles,
-            categories = (categories + tempCategories).sorted(),
-            modifier = Modifier.padding(contentPadding),
-            onSearchClick = onSearchClicked,
-            onRecentClick = onArticleClick,
-            onCategoryClick = onCategoryClick,
-            onCategoryLongClick = {
-            }
-        )
+    } else if (contentType == ContentType.ListAndDetail) {
+
+    } else {
+
     }
+}
+
+@Composable
+fun HomeContent(
+    modifier: Modifier = Modifier
+) {
 }
 
 @Composable
@@ -97,40 +79,6 @@ fun CategoryCreationDialog(
                         }
                         Button(
                             onClick = onAcceptRequest,
-                            modifier = Modifier.weight(1f)
-                        ) {
-                            Text(text = stringResource(R.string.add))
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun DeletionDialog(
-    text: String,
-    deleting: Any,
-    onDismissRequest: () -> Unit,
-    onAcceptRequest: (Any) -> Unit,
-    modifier: Modifier = Modifier,
-    show: Boolean = false
-) {
-    Box(modifier.fillMaxSize()) {
-        if (show) {
-            Dialog(onDismissRequest = onDismissRequest) {
-                Column {
-                    Text(text)
-                    Row {
-                        Button(
-                            onClick = onDismissRequest,
-                            modifier = Modifier.weight(1f)
-                        ) {
-                            Text(text = stringResource(R.string.cancel))
-                        }
-                        Button(
-                            onClick = { onAcceptRequest(deleting) },
                             modifier = Modifier.weight(1f)
                         ) {
                             Text(text = stringResource(R.string.add))
@@ -216,13 +164,5 @@ fun CategoryCard(
                 .wrapContentSize(align = Alignment.Center),
             style = MaterialTheme.typography.h4
         )
-    }
-}
-
-@Preview
-@Composable
-fun GroupCardPreview() {
-    EldemLibTheme {
-        CategoryCard(title = "Group", imgUrl = "")
     }
 }

@@ -16,7 +16,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.philexliveprojects.eldemlib.R
 import com.philexliveprojects.eldemlib.data.local.entity.ArticleListItem
-import com.philexliveprojects.eldemlib.ui.AppViewModelProvider
 import com.philexliveprojects.eldemlib.ui.GLOBAL
 import com.philexliveprojects.eldemlib.ui.common.SearchBar
 import com.philexliveprojects.eldemlib.ui.viewmodels.CategoryViewModel

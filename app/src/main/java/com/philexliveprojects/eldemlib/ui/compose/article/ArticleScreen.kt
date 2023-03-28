@@ -21,7 +21,6 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.philexliveprojects.eldemlib.R
-import com.philexliveprojects.eldemlib.ui.AppViewModelProvider
 import com.philexliveprojects.eldemlib.ui.viewmodels.ArticleViewModel
 
 /*
