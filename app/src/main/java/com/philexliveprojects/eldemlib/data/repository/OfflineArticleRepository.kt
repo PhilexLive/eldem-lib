@@ -1,6 +1,6 @@
 package com.philexliveprojects.eldemlib.data.repository
 
-import com.philexliveprojects.eldemlib.data.local.dao.ArticleDao
+import com.philexliveprojects.eldemlib.data.local.daos.ArticleDao
 import com.philexliveprojects.eldemlib.data.local.entity.Article
 import com.philexliveprojects.eldemlib.data.local.entity.ArticleListItem
 import com.philexliveprojects.eldemlib.data.local.entity.ArticleWithParagraphs

@@ -8,6 +8,5 @@ import kotlinx.coroutines.flow.asStateFlow
 class ArticleViewModel(
     private val articleRepository: ArticleRepository
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow("")
-    val uiState = _uiState.asStateFlow()
+
 }

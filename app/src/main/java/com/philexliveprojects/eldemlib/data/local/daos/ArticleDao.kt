@@ -1,4 +1,4 @@
-package com.philexliveprojects.eldemlib.data.local.dao
+package com.philexliveprojects.eldemlib.data.local.daos
 
 import androidx.room.*
 import com.philexliveprojects.eldemlib.data.local.entity.Article
@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.Flow
 
 private const val LIMIT = 5
 private const val OFFSET = 0
+
 
 @Dao
 interface ArticleDao {

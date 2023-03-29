@@ -1,3 +1,3 @@
 package com.philexliveprojects.eldemlib.ui.utilities
 
-/* TODO Declare all necessary constants. */
+const val TIMEOUT_MILLIS = 5_000L

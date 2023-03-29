@@ -11,15 +11,15 @@ import com.philexliveprojects.eldemlib.ui.viewmodels.EldemLibViewModel
 @Composable
 fun EldemLibApp(windowWidthSizeClass: WindowWidthSizeClass) {
     val contentType = when (windowWidthSizeClass) {
-        WindowWidthSizeClass.Compact -> ContentType.ListOnly
-        WindowWidthSizeClass.Medium -> ContentType.ListAndDetail
-        WindowWidthSizeClass.Expanded -> ContentType.MultipleListsAndDetail
-        else -> ContentType.ListOnly
+        WindowWidthSizeClass.Compact -> ContentType.Home
+        WindowWidthSizeClass.Medium -> ContentType.Home
+        WindowWidthSizeClass.Expanded -> ContentType.HomeAndDetail
+        else -> ContentType.Home
     }
     val viewModel = hiltViewModel<EldemLibViewModel>()
     val uiState by viewModel.uiState.collectAsState()
 
-    HomeScreen(
+    EldemLibAppContent(
         contentType = contentType,
         uiState = uiState
     )

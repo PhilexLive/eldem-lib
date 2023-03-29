@@ -16,7 +16,6 @@ import androidx.compose.ui.window.Dialog
 import coil.compose.AsyncImage
 import com.philexliveprojects.eldemlib.R
 import com.philexliveprojects.eldemlib.data.local.entity.ArticleListItem
-import com.philexliveprojects.eldemlib.ui.GLOBAL
 import com.philexliveprojects.eldemlib.ui.common.SearchBar
 import com.philexliveprojects.eldemlib.ui.utilities.ContentType
 import com.philexliveprojects.eldemlib.ui.viewmodels.EldemLibUiState
@@ -24,20 +23,7 @@ import com.philexliveprojects.eldemlib.ui.viewmodels.EldemLibUiState
 
 const val HOME_ROUTE = "home"
 
-@Composable
-fun HomeScreen(
-    contentType: ContentType,
-    uiState: EldemLibUiState,
-    modifier: Modifier = Modifier,
-) {
-    if (contentType == ContentType.MultipleListsAndDetail) {
 
-    } else if (contentType == ContentType.ListAndDetail) {
-
-    } else {
-
-    }
-}
 
 @Composable
 fun HomeContent(
@@ -107,7 +93,7 @@ fun HomeList(
                     placeholderText = stringResource(R.string.search),
                     value = "",
                     onValueChange = {},
-                    modifier = Modifier.clickable { onSearchClick(GLOBAL) },
+                    modifier = Modifier.clickable {  },
                     enabled = false
                 )
             }
