@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.philexliveprojects.eldemlib.ui.utilities.ContentType
+import com.philexliveprojects.eldemlib.utilities.ContentType
 import com.philexliveprojects.eldemlib.ui.viewmodels.EldemLibViewModel
 
 @Composable

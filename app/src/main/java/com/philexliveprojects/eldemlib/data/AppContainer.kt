@@ -1,8 +1,8 @@
 package com.philexliveprojects.eldemlib.data
 
 import android.content.Context
-import com.philexliveprojects.eldemlib.data.repository.ArticleRepository
-import com.philexliveprojects.eldemlib.data.repository.OfflineArticleRepository
+import com.philexliveprojects.eldemlib.data.repositories.ArticleRepository
+import com.philexliveprojects.eldemlib.data.repositories.OfflineArticleRepository
 
 interface AppContainer {
     val articleRepository: ArticleRepository

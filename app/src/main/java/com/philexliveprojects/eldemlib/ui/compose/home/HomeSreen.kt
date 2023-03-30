@@ -1,91 +1,29 @@
-package com.philexliveprojects.eldemlib.ui.compose
+package com.philexliveprojects.eldemlib.ui.compose.home
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.combinedClickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
-import coil.compose.AsyncImage
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.philexliveprojects.eldemlib.R
-import com.philexliveprojects.eldemlib.data.local.entity.ArticleListItem
 import com.philexliveprojects.eldemlib.ui.common.SearchBar
-import com.philexliveprojects.eldemlib.ui.utilities.ContentType
-import com.philexliveprojects.eldemlib.ui.viewmodels.EldemLibUiState
-
-
-const val HOME_ROUTE = "home"
-
-
+import com.philexliveprojects.eldemlib.ui.compose.home.CategoryCard
+import com.philexliveprojects.eldemlib.ui.viewmodels.HomeViewModel
 
 @Composable
-fun HomeContent(
-    modifier: Modifier = Modifier
-) {
-}
-
-@Composable
-fun CategoryCreationDialog(
-    value: String,
-    onDialogTextInput: (String) -> Unit,
-    onDismissRequest: () -> Unit,
-    onAcceptRequest: () -> Unit,
+fun HomeScreen(
     modifier: Modifier = Modifier,
-    isError: Boolean = false,
-    show: Boolean = false
+    viewModel: HomeViewModel = hiltViewModel(),
+    goToCategory: (Long) -> Unit = {}
 ) {
-    Box(modifier.fillMaxSize()) {
-        if (show) {
-            Dialog(onDismissRequest) {
-                Column {
-                    TextField(
-                        value = value,
-                        onValueChange = { onDialogTextInput(it) },
-                        placeholder = {
-                            Text(
-                                text = stringResource(R.string.category_name)
-                            )
-                        },
-                        isError = isError,
-                        maxLines = 1
-                    )
-                    Row {
-                        Button(
-                            onClick = onDismissRequest,
-                            modifier = Modifier.weight(1f)
-                        ) {
-                            Text(text = stringResource(R.string.cancel))
-                        }
-                        Button(
-                            onClick = onAcceptRequest,
-                            modifier = Modifier.weight(1f)
-                        ) {
-                            Text(text = stringResource(R.string.add))
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
+    val uiState by viewModel.uiState.collectAsState()
 
-@Composable
-fun HomeList(
-    recentArticles: List<ArticleListItem>,
-    categories: List<String>,
-    modifier: Modifier = Modifier,
-    onSearchClick: (String) -> Unit = {},
-    onRecentClick: (Long) -> Unit = {},
-    onCategoryClick: (String) -> Unit = {},
-    onCategoryLongClick: ((String) -> Unit) = {}
-) {
     LazyColumn(modifier.fillMaxSize()) {
         item {
             Column {
@@ -93,62 +31,17 @@ fun HomeList(
                     placeholderText = stringResource(R.string.search),
                     value = "",
                     onValueChange = {},
-                    modifier = Modifier.clickable {  },
+                    modifier = Modifier.clickable { },
                     enabled = false
                 )
             }
         }
-        item {
-            for (recent in recentArticles) {
-                Article(
-                    title = recent.title,
-                    description = recent.description,
-                    onClick = { onRecentClick(recent.articleId) }
-                )
-            }
-        }
-        items(categories, key = { it }) { category ->
+        items(uiState.categories, key = { it.categoryId }) { category ->
             CategoryCard(
-                title = category,
-                imgUrl = category,
-                onClick = { onCategoryClick(category) },
-                onLongClick = { onCategoryLongClick(category) }
+                title = category.categoryName,
+                onClick = { goToCategory(category.categoryId) },
+                onLongClick = { TODO("Implement long click for category card.") }
             )
         }
-    }
-}
-
-
-@OptIn(ExperimentalFoundationApi::class)
-@Composable
-fun CategoryCard(
-    title: String,
-    imgUrl: String,
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit = {},
-    onLongClick: (() -> Unit)? = null
-) {
-    Card(
-        modifier = modifier
-            .height(200.dp)
-            .fillMaxWidth()
-            .combinedClickable(
-                onLongClick = onLongClick,
-                onClick = onClick
-            )
-
-    ) {
-        AsyncImage(
-            model = imgUrl,
-            contentDescription = null
-        )
-
-        Text(
-            text = title,
-            modifier = Modifier
-                .fillMaxSize()
-                .wrapContentSize(align = Alignment.Center),
-            style = MaterialTheme.typography.h4
-        )
     }
 }

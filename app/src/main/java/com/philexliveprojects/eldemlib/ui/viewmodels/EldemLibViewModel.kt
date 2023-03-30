@@ -1,7 +1,7 @@
 package com.philexliveprojects.eldemlib.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
-import com.philexliveprojects.eldemlib.ui.utilities.EldemLibRoute
+import com.philexliveprojects.eldemlib.utilities.EldemLibRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

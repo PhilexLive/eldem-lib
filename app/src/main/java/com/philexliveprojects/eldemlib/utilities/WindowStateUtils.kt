@@ -1,4 +1,4 @@
-package com.philexliveprojects.eldemlib.ui.utilities
+package com.philexliveprojects.eldemlib.utilities
 
 /**
  * Content type for different screen sizes.

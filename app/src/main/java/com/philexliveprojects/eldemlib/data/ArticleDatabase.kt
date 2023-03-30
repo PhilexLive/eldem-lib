@@ -7,6 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.philexliveprojects.eldemlib.data.local.converter.ArticleConverter
 import com.philexliveprojects.eldemlib.data.local.daos.ArticleDao
+import com.philexliveprojects.eldemlib.data.local.entities.Paragraph
 import com.philexliveprojects.eldemlib.data.local.entity.*
 
 @Database(entities = [Article::class, Paragraph::class], version = 2, exportSchema = false)
