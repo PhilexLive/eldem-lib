@@ -16,8 +16,9 @@ import com.philexliveprojects.eldemlib.data.local.entity.ArticlePreview
 import com.philexliveprojects.eldemlib.ui.theme.EldemLibTheme
 
 @Composable
-fun CategoryListItem(
-    article: ArticlePreview,
+fun ArticlePreview(
+    title: String,
+    description: String,
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
 ) {
@@ -27,9 +28,9 @@ fun CategoryListItem(
     ) {
         /*TODO Implement Image background*/
         Column(Modifier.padding(8.dp)) {
-            Text(text = article.title, style = MaterialTheme.typography.subtitle1)
+            Text(text = title, style = MaterialTheme.typography.subtitle1)
             Spacer(modifier = Modifier.padding(4.dp))
-            Text(text = article.description, fontWeight = FontWeight.Light)
+            Text(text = description, fontWeight = FontWeight.Light)
         }
     }
 }
@@ -38,13 +39,6 @@ fun CategoryListItem(
 @Composable
 fun CategoryListItemPreview() {
     EldemLibTheme(darkTheme = false) {
-        CategoryListItem(
-            article = ArticlePreview(
-                1,
-                "Subanutica",
-                "A survival video game",
-                listOf("url1")
-            )
-        )
+        ArticlePreview("Subanutica", "A survival video game")
     }
 }

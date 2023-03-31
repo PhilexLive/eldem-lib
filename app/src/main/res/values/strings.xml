@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Eldem Lib</string>
     <string name="search">Global search</string>
-    <string name="search_in">Search in %s</string>
+    <string name="search_in">Search in </string>
     <string name="tags">tags</string>
     <string name="title">Title</string>
     <string name="body">Body</string>

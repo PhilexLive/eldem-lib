@@ -10,6 +10,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -22,16 +23,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.philexliveprojects.eldemlib.ui.compose.clearFocusOnKeyboardDismiss
 import com.philexliveprojects.eldemlib.ui.theme.EldemLibTheme
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SearchBar(
-    placeholderText: String,
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    focusRequester: FocusRequester = remember{FocusRequester()},
+    focusRequester: FocusRequester = remember { FocusRequester() },
     enabled: Boolean = true,
+    placeholder: @Composable (() -> Unit)? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null
 ) {
@@ -52,7 +55,7 @@ fun SearchBar(
                 .focusRequester(focusRequester)
                 .clearFocusOnKeyboardDismiss(),
             enabled = enabled,
-            placeholder = { Text(text = placeholderText) },
+            placeholder = placeholder,
             leadingIcon = leadingIcon,
             trailingIcon = trailingIcon,
             singleLine = true,
@@ -69,11 +72,28 @@ fun SearchBar(
     }
 }
 
+@Composable
+fun rememberSearchState(value: String): SearchState = remember(value) { SearchState(value) }
+
+@Stable
+class SearchState(initialValue: String) {
+    var value: String = initialValue
+        private set
+
+    fun onSearch(value: String) {
+        this.value = value
+    }
+
+    fun onClearSearch() {
+        value = ""
+    }
+}
+
 @Preview
 @Composable
 fun SearchBarPreview() {
     EldemLibTheme {
-        SearchBar(placeholderText = "Search", value = "", onValueChange = {}, trailingIcon = {
+        SearchBar(value = "", onValueChange = {}, trailingIcon = {
             Icon(
                 imageVector = Icons.Default.Close,
                 contentDescription = null
@@ -86,6 +106,6 @@ fun SearchBarPreview() {
 @Composable
 fun SearchBarPreviewDark() {
     EldemLibTheme(darkTheme = true) {
-        SearchBar(placeholderText = "Search", value = "", onValueChange = {})
+        SearchBar(value = "", onValueChange = {})
     }
 }

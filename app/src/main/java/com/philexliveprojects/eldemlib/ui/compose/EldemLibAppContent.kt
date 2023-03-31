@@ -1,6 +1,7 @@
 package com.philexliveprojects.eldemlib.ui.compose
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -18,19 +19,13 @@ fun EldemLibAppContent(
 ) {
     when (contentType) {
         ContentType.HomeAndDetail -> {
-            Column(modifier = modifier) {
-                Scaffold(
-                    topBar = {
-                        TODO("Instant search appBar")
-                    }
-                ) { contentPadding ->
-                    if (uiState.route == EldemLibRoute.Home) {
-                        TODO("Instant Home Route")
-                    } else {
-                        TODO("Instant Category Screen")
-                    }
+            Row(modifier = modifier) {
+                if (uiState.route == EldemLibRoute.Category) {
+                    TODO("Instant Home Route")
+                } else {
+                    TODO("Instant Category Screen")
                 }
-                TODO("Instant Article Screen")
+                /*TODO Instant Article Screen*/
             }
         }
         ContentType.Home -> {

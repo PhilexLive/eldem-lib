@@ -30,7 +30,6 @@ fun CategoryCard(
                 onLongClick = onLongClick,
                 onClick = onClick
             )
-
     ) {
         /*TODO Implement image background*/
 
